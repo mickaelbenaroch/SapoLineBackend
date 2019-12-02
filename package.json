@@ -1,0 +1,26 @@
+{
+  "name": "sapobackend",
+  "version": "1.0.0",
+  "description": "sapo app backend api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mickaelbenaroch/SapoLineBackend.git"
+  },
+  "author": "Mickael Benaroch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mickaelbenaroch/SapoLineBackend/issues"
+  },
+  "homepage": "https://github.com/mickaelbenaroch/SapoLineBackend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.3.0",
+    "mongodb": "^3.3.5",
+    "simple-node-logger": "^18.12.23"
+  }
+}
