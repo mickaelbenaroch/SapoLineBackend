@@ -10,8 +10,8 @@ module.exports = {
       client:   'MongoDB',
       db_model:  require('../models/db'),
       connection: {
-        uri:      'mongodb+srv://mickaelbenaroch@yahoo.fr:shenkar_4@cluster0-okcdn.mongodb.net/test?retryWrites=true&w=majority',
-        database: 'Sapo',
+        uri:      'mongodb+srv://sapo:shenkar_4@cluster0-nxqzu.mongodb.net/test?retryWrites=true&w=majority',
+        database: 'sapo',
       }
     },
     corss: {

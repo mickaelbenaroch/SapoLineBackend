@@ -8,7 +8,7 @@ let collection = {
 exports.connect = (url, done) => {
     if (collection.db) return done();
 
-    MongoClient.connect(url,{ useNewUrlParser: true }, (err, client) => {
+    MongoClient.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true}, (err, client) => {
         if(err) return done(err);
         console.log("Connect to MongoDB");
         collection.db = client.db('Sapo');
