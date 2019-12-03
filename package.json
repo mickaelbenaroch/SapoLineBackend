@@ -4,11 +4,9 @@
   "description": "sapo app backend api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mickaelbenaroch/SapoLineBackend.git"
