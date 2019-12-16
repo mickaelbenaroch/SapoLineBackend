@@ -38,7 +38,7 @@ exports.createUser = (obj_exercise) => {
                             if(error){
                                 console.log(error);
                             }else{
-                                console.log("Message sent: " + response.message);
+                                console.log("Message sent mail: " + response.message);
                             }
                         
                             smtpTransport.close();
