@@ -7,6 +7,7 @@ profile         = require('../models/user'),
 valid_class     = require('../controllers/API/validate'),
 log             = require('../controllers/API/logger');
 
+
 //Details - get user profile by email
 //require - email 
 //return  - user profile
@@ -26,6 +27,32 @@ route.post('/', check('email').not().isEmpty(), (req, res)=>{
             res.end()
         })
     }
+});
+
+//Details - create new exercise
+//require - none
+//return  - boolean, true/false
+route.post('/new', (req, res)=>{
+    let obj_profile = JSON.parse(JSON.stringify({
+        user:           req.body.user,
+        first_name:     req.body.first_name, 
+        last_name:      req.body.last_name,
+        age:            req.body.age,
+        email:          req.body.email,
+        phone:          req.body.phone,
+        street:         req.body.address,
+        pass_id:        req.body.pass_id,
+        item_id:        req.body.item_id
+    }));
+
+    profile.createUser(obj_profile).then((data) => {
+        res.status(200).json({isValid: true, user: data});   
+        res.end(); 
+    }).catch(err => {
+        res.json({isValid: false, error: err})
+        res.status(500)
+        res.end()
+    })
 });
 
 //Details - get all users by group type

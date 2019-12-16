@@ -1,6 +1,54 @@
 'use strict';
-
 let db = require('./db'); 
+var mailer = require("nodemailer");
+
+// Use Smtp Protocol to send Email
+var smtpTransport = mailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: "mickaelbenaroch@gmail.com",
+        pass: "mb6065817ro"
+    }
+});
+
+//Details - create new exercise
+exports.createUser = (obj_exercise) => {
+    return new Promise(( res, rej) => {
+        let user = db.get().collection('user');
+        let order = db.get().collection('order');
+        
+        user.insertOne(obj_exercise, (err, result) => {
+            if(err)
+                rej("create new user faild")
+            else{
+                order.insertOne({_id: obj_exercise.item_id, user_mail: obj_exercise.email, user_phone: obj_exercise.phone},(err, result) => {
+                    if(err)
+                        rej("create new item faild")
+                    else {
+                        var mail = {
+                            from: "SapoLine <mickaelbenaroch@gmail.com>>",
+                            to: obj_exercise.email,
+                            subject: "Welcome to SapoLine",
+                            text: "Thank you for your purchase!",
+                            html: "<b>Thank you for your purchase! SapoLine Team...</b>"
+                        }
+                        
+                        smtpTransport.sendMail(mail, function(error, response){
+                            if(error){
+                                console.log(error);
+                            }else{
+                                console.log("Message sent: " + response.message);
+                            }
+                        
+                            smtpTransport.close();
+                        });
+                    }
+                        res(obj_exercise._id)
+                });
+            }
+        });
+    });
+}
 
 //Details - get user profile by email
 exports.getUser = (email) => {
