@@ -24,5 +24,8 @@ module.exports = {
       dateFormat:         'YYYY.MM.DD',
       validation_Result:  validationResult,
       check_body:         check,
+    },
+    info: {
+      co: 'mb6065817ro'
     }
   };

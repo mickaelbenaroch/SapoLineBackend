@@ -1,13 +1,14 @@
 'use strict';
 let db = require('./db'); 
 var mailer = require("nodemailer");
+var conf = require('../configuration/config');
 
 // Use Smtp Protocol to send Email
 var smtpTransport = mailer.createTransport({
     service: "Gmail",
     auth: {
         user: "mickaelbenaroch@gmail.com",
-        pass: "mb6065817ro"
+        pass: conf.info.co
     }
 });
 
