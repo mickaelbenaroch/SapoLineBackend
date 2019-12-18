@@ -24,6 +24,8 @@ app.use(cors());
 app.use(require('./controllers'));
 
 //connect to mongodb
+console.log("sdsd " + db.connection.uri );
+console.log("sdsd " + db.connection.database );
 db_model.connect(db.connection.uri, (err) => {
    if(err){
         console.log('Unable to connect to MongoDB.');
