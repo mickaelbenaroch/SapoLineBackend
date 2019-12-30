@@ -40,7 +40,10 @@ route.post('/getItems', (req, res)=>{
         description: req.body.description,
         price: req.body.price,
         discount: req.body.discount,
-        picture: req.body.picture
+        picture: req.body.picture,
+        descriptionEnglish: req.body.descriptionEnglish,
+        sizes: req.body.sizes,
+        quantity: req.body.quantity
     }));
 
     item.getItems(obj_item).then((data) => {
