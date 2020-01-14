@@ -17,7 +17,10 @@ route.post('/', (req, res)=>{
         description: req.body.description,
         price: req.body.price,
         discount: req.body.discount,
-        picture: req.body.picture
+        picture: req.body.picture,
+        sizes: req.body.sizes,
+        colors: req.body.colors,
+        descriptionEnglish: req.body.descriptionEnglish
     };
 
     item.createItem(obj_item).then((data) => {
