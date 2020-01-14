@@ -20,7 +20,7 @@ route.post('/', (req, res)=>{
         picture: req.body.picture,
         sizes: req.body.sizes,
         colors: req.body.colors,
-        descriptionEnglish: req.body.descriptionEnglish
+        descriptionEnglish: req.body.descriptionEnglish,
     };
 
     item.createItem(obj_item).then((data) => {
@@ -46,7 +46,7 @@ route.post('/getItems', (req, res)=>{
         picture: req.body.picture,
         descriptionEnglish: req.body.descriptionEnglish,
         sizes: req.body.sizes,
-        quantity: req.body.quantity
+        quantity: req.body.quantity,
     }));
 
     item.getItems(obj_item).then((data) => {
@@ -71,7 +71,13 @@ route.post('/updateItem', check('id').not().isEmpty(), (req, res)=>{
         description: req.body.description,
         price: req.body.price,
         discount: req.body.discount,
-        picture: req.body.picture
+        picture: req.body.picture,
+        sizes: req.body.sizes,
+        colors: req.body.colors,
+        choosedColor: req.body.choosedColor,
+        choosedSize: req.body.choosedSize,
+        descriptionEnglish: req.body.descriptionEnglish,
+        quantity: req.body.quantity
     }));
 
     let validat_result = valid_class.valid_chack(req);
