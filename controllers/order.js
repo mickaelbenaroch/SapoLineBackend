@@ -1,6 +1,6 @@
 'use strict';
 
-express         = require('express'),
+const express         = require('express'),
 route           = express.Router(),
 order        = require('../models/order')
 
