@@ -1,11 +1,8 @@
 'use strict';
 
-const { check } = require('express-validator'),
 express         = require('express'),
 route           = express.Router(),
-order        = require('../models/order'),
-valid_class     = require('../controllers/API/validate'),
-log             = require('../controllers/API/logger');
+order        = require('../models/order')
 
 //Details - create new order
 //require - none
@@ -19,7 +16,7 @@ route.post('/', (req, res)=>{
         status: req.body.status
     };
 
-    item.createOrder(obj_order).then((data) => {
+    order.createOrder(obj_order).then((data) => {
         res.status(200).json({isValid: true, order: data});   
         res.end(); 
     }).catch(err => {
@@ -41,7 +38,7 @@ route.post('/getOrders', (req, res)=>{
         status: req.body.status
     }));
 
-    item.getOrders(obj_order).then((data) => {
+    order.getOrders(obj_order).then((data) => {
         res.status(200).json({isValid: true, orders: data});   
         res.end(); 
     }).catch(err => {
@@ -65,7 +62,7 @@ route.post('/updateOder', (req, res)=>{
         status: req.body.status
     }));
 
-    item.updateItem(obj_oder).then((data) => {
+    order.updateItem(obj_oder).then((data) => {
         res.status(200).json({isValid: true, order: data});   
         res.end(); 
     }).catch(err => {
