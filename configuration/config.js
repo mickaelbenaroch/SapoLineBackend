@@ -10,8 +10,8 @@ module.exports = {
       client:   'MongoDB',
       db_model:  require('../models/db'),
       connection: {
-        uri:      "mongodb+srv://sapo:shenkar_4@cluster0-nxqzu.mongodb.net/test?retryWrites=true&w=majority",
-        database: "sapo",
+        uri:      process.env.DB,
+        database: process.env.DB_NAME,
       }
     },
     corss: {
@@ -26,6 +26,6 @@ module.exports = {
       check_body:         check,
     },
     info: {
-      co: "mb6065817ro"
+      co: process.env.MAIL
     }
   };

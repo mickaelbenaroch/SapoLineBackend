@@ -3,8 +3,8 @@ let db = require('./db');
 var mailer = require("nodemailer");
 var conf = require('../configuration/config');
 const jwt = require('jsonwebtoken');
-const jwtKey = 'my_secret_key';
-const jwtExpirySeconds = 300;
+const jwtKey = process.env.SECRET
+const jwtExpirySeconds = process.env.EXP
 
 // Use Smtp Protocol to send Email
 console.log(conf.info.co);
