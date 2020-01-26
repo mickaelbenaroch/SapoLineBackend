@@ -16,67 +16,49 @@ var smtpTransport = mailer.createTransport({
     }
 });
 
-//Details - create new exercise
-exports.createUser = (obj_exercise) => {
+//Details - create new user
+exports.createUser = (obj_user) => {
     return new Promise(( res, rej) => {
-        let user = db.get().collection('user');
-        let order = db.get().collection('order');
-        
-        user.insertOne(obj_exercise, (err, result) => {
-            if(err)
-                rej("create new user faild")
-            else{
-                order.insertOne({_id: obj_exercise.item_id, user_mail: obj_exercise.email, user_phone: obj_exercise.phone},(err, result) => {
-                    if(err)
-                        rej("create new item faild")
-                    else {
-                        var mail = {
-                            from: "SapoLine <mickaelbenaroch@gmail.com>>",
-                            to: obj_exercise.email,
-                            subject: "Welcome to SapoLine",
-                            text: "Thank you for your purchase!",
-                            html: "<b>Thank you for your purchase! SapoLine Team...</b>"
-                        }
-                        
-                        smtpTransport.sendMail(mail, function(error, response){
-                            if(error){
-                                console.log(error);
-                            }else{
-                                console.log("Message sent mail: " + response.message);
-                            }
-                        
-                            smtpTransport.close();
-                        });
-                    }
-                        res(obj_exercise._id)
-                });
-            }
-        });
-    });
-}
-
-//Details - get user profile by email
-exports.getAuthUser = (email, password) => {
-    return new Promise(( res, rej) => {
-        if (!email || !password) {
-            return rej('email or password are undefined');
-          }
         let auth = db.get().collection('auth');
-        auth.findOne({email: email, password: password}, (err, result) => {
-            if(err || result === null) {
-                rej("Auth user not exist")
+        if (!obj_user || !obj_user.email || !obj_user.password) {
+            rej("Email or Password is undefined!");
+        }
+        auth.findOne({email: obj_user.email}, (result, error) => {
+            if(error || result !== null) {
+                rej("Auth user already exist")
             }
-            else {
-                const token = jwt.sign({ email }, jwtKey, {
-                    algorithm: 'HS256',
-                    expiresIn: jwtExpirySeconds
-                  })
-                res({token: token,  maxAge: jwtExpirySeconds * 1000 });
-            }
+            else if (!error && result === null) {
+                auth.insertOne(obj_user, (err, resu) => {
+                    if(err) {
+                        res("create new item failed " + err);
+                    } else {
+                        let email = obj_user.email;
+                        const token = jwt.sign({ email }, jwtKey, {
+                            algorithm: 'HS256',
+                            expiresIn: jwtExpirySeconds
+                            })
+                            var mail = {
+                                from: "SapoLine <mickaelbenaroch@gmail.com>>",
+                                to: obj_user.email,
+                                subject: "Welcome to SapoLine",
+                                text: "Thank you for your purchase!",
+                                html: "<b>Thank you for your purchase! SapoLine Team...</b>"
+                            }
+                            smtpTransport.sendMail(mail, function(error, response){
+                                if(error){
+                                    console.log(error);
+                                }else{
+                                    console.log("Message sent mail: " + response.message);
+                                }
+                                smtpTransport.close();
+                            });
+                        res({token: token,  maxAge: jwtExpirySeconds * 1000, message: "User was created successfully" });
+                    }
+                })
+            } 
         });
     });
 }
-
 
 //Details - get user profile by email
 exports.getAuthUser = (email, password) => {

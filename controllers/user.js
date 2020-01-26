@@ -34,15 +34,12 @@ route.post('/', check('email').not().isEmpty(), (req, res)=>{
 //return  - boolean, true/false
 route.post('/new', (req, res)=>{
     let obj_profile = JSON.parse(JSON.stringify({
-        user:           req.body.user,
-        first_name:     req.body.first_name, 
-        last_name:      req.body.last_name,
-        age:            req.body.age,
-        email:          req.body.email,
-        phone:          req.body.phone,
-        street:         req.body.address,
-        pass_id:        req.body.pass_id,
-        item_id:        req.body.item_id
+        email: req.body.email,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        phone: req.body.phone,
+        address: req.body.address,
+        token: req.headers.token
     }));
 
     profile.createUser(obj_profile).then((data) => {
