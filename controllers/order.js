@@ -13,7 +13,8 @@ route.post('/', (req, res)=>{
         order_id: req.body.order_id,
         user: req.body.user,
         orderItems: req.body.orderItems,
-        status: req.body.status
+        status: req.body.status,
+        token: req.headers.token
     };
 
     order.createOrder(obj_order).then((data) => {

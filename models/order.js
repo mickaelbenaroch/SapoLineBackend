@@ -1,19 +1,42 @@
 'use strict';
 
 let db = require('./db'); 
+const jwt = require('jsonwebtoken');
+const jwtKey = process.env.SECRET
+const jwtExpirySeconds = process.env.EXP
 
 //Details - create new order
 exports.createOrder = (obj_order) => {
     return new Promise(( res, rej) => {
-        let item = db.get().collection('order');
-        item.insertOne(obj_order, (err, result) => {
-            if(err)
-                rej("create new order faild")
-            else{
-                res(obj_order);
-            }
-        });
-    });
+        if (!obj_order.token) {
+            rej("unauthorized: no token on request")
+        } else {   
+           var payload;
+           try {
+               payload = jwt.verify(token, jwtKey)
+           } catch (e) {
+               if (e instanceof jwt.JsonWebTokenError) {
+                rej('the JWT is unauthorized' + e);
+               }
+                rej('bad request error' + e);
+           }
+            let auth = db.get().collection('auth');
+            auth.findOne({email: obj_order.user.email}, (error, resu) => {
+                if (error) {
+                    rej('user not found, cannot create order')
+                } else {
+                    let item = db.get().collection('order');
+                    item.insertOne(obj_order, (err, result) => {
+                        if(err) {
+                            rej("create new order faild")
+                        } else {
+                            res(obj_order);
+                        }
+                    });
+                }
+            });
+        }
+    }); 
 }
 
 //Details - get orders
