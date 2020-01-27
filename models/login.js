@@ -69,7 +69,7 @@ exports.getAuthUser = (email, password) => {
         let auth = db.get().collection('auth');
         auth.findOne({email: email, password: password}, (err, result) => {
             if(err || result === null) {
-                rej("Auth user not exist")
+                rej("Mail/Password combination is wrong!")
             }
             else {
                 const token = jwt.sign({ email }, jwtKey, {
