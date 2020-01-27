@@ -13,7 +13,7 @@ exports.createOrder = (obj_order) => {
         } else {   
            var payload;
            try {
-               payload = jwt.verify(token, jwtKey)
+               payload = jwt.verify(obj_order.token, jwtKey)
            } catch (e) {
                if (e instanceof jwt.JsonWebTokenError) {
                 rej('the JWT is unauthorized' + e);
