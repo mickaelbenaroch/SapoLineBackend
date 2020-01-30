@@ -39,4 +39,20 @@ route.post('/newuser', (req, res)=>{
     })
 });
 
+//login-signup
+route.post('/checktoken', (req, res)=>{
+    let obj_token = JSON.parse(JSON.stringify({
+        token: req.headers.token
+    }));
+
+    profile.checkToken(obj_token).then((data) => {
+        res.status(200).json({isValid: true, token: data});   
+        res.end(); 
+    }).catch(err => {
+        res.json({isValid: false, error: err})
+        res.status(500)
+        res.end()
+    })
+});
+
 module.exports = route

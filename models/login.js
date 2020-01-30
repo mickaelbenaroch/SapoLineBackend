@@ -82,13 +82,11 @@ exports.getAuthUser = (email, password) => {
     });
 }
 
-//Details - get user profile by email
-exports.welcome = (token) => {
+exports.checkToken = (token) => {
     return new Promise(( res, rej) => {  
-        if (!token) {
+        if (!token || !token.token) {
              rej('no token on body request');
         }
-        
         var payload
         try {
             payload = jwt.verify(token, jwtKey)
@@ -98,7 +96,7 @@ exports.welcome = (token) => {
             }
              rej('bad request error' + e);
         }
-        res({username: 'hello user'});
+        res({isAlive: true});
     });
 }
 
