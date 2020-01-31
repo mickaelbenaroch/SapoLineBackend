@@ -2,8 +2,18 @@
 
 let db = require('./db'); 
 const jwt = require('jsonwebtoken');
-const jwtKey = process.env.SECRET
-const jwtExpirySeconds = process.env.EXP
+const jwtKey = process.env.SECRET;
+var mailer = require("nodemailer");
+var conf = require('../configuration/config');
+
+// Use Smtp Protocol to send Email
+var smtpTransport = mailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: "mickaelbenaroch@gmail.com",
+        pass: conf.info.co
+    }
+});
 
 //Details - create new order
 exports.createOrder = (obj_order) => {
@@ -30,6 +40,42 @@ exports.createOrder = (obj_order) => {
                         if(err) {
                             rej("create new order faild")
                         } else {
+                            let total = 0;
+                            if(obj_order && obj_order.orderItem && obj_order.orderItem.length > 0) {
+                                obj_order.orderItem.forEach(item => {
+                                    let temp = [];
+                                    let fixed = '';
+                                    if (item.price.includes(',')) {
+                                      temp = item.price.split(',');
+                                      if (temp.length >= 2) {
+                                        if (temp[1].includes('₪')) {
+                                           temp[1] = temp[1].substring(0, temp[1].length - 1);
+                                        } else {
+                                          temp[1] = temp[1].substring(0, temp[1].length - 3);
+                                        }
+                                        fixed = temp[0] + '.' + temp[1];
+                                      }
+                                    }
+                                    total += (Number(fixed) * Number(item.quantity))
+                                  });
+                                }
+                            
+                            console.log(total.toString() + 'nis');
+                            var mail = {
+                                from: "SapoLine <mickaelbenaroch@gmail.com>>",
+                                to: obj_order.user.email,
+                                subject:`Hi ${obj_order.user.first_name}! Your order was succesfully created`,
+                                text: "Thank you for your purchase!",
+                                html: `<p>In order to continue, please pay by Pepper Pay, or PayBox, or Bit a montant of ${total.toString()} ₪ for order number ${obj_order.order_id}. The order will be finally approved after the payment and you can track the progress of the order on the site. </br>SapoLine Team...</p>`
+                            }
+                            smtpTransport.sendMail(mail, function(error, response){
+                                if(error){
+                                    console.log(error);
+                                }else{
+                                    console.log("Message sent mail: " + response);
+                                }
+                                smtpTransport.close();
+                            });
                             res(obj_order);
                         }
                     });

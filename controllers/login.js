@@ -39,7 +39,7 @@ route.post('/newuser', (req, res)=>{
     })
 });
 
-//login-signup
+//login-is token alive
 route.post('/checktoken', (req, res)=>{
     let obj_token = JSON.parse(JSON.stringify({
         token: req.headers.token

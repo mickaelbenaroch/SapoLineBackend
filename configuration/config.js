@@ -4,14 +4,14 @@ const { check, validationResult } = require('express-validator')
 module.exports = {
     server: {
       host: 'localhost',
-      port: process.env.PORT || 3030
+      port: process.env.PORT || 8000
     },
     db: {
       client:   'MongoDB',
       db_model:  require('../models/db'),
       connection: {
         uri:      process.env.DB,
-        database: process.env.DB_NAME,
+        database: process.env.DB_NAME
       }
     },
     corss: {

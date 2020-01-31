@@ -12,7 +12,7 @@ route.post('/', (req, res)=>{
         date: req.body.date,
         order_id: req.body.order_id,
         user: req.body.user,
-        orderItem: req.body.orderItems,
+        orderItem: req.body.orderItem,
         status: req.body.status,
         token: req.headers.token
     };

@@ -3,11 +3,10 @@ let db = require('./db');
 var mailer = require("nodemailer");
 var conf = require('../configuration/config');
 const jwt = require('jsonwebtoken');
-const jwtKey = process.env.SECRET
-const jwtExpirySeconds = process.env.EXP
+const jwtKey = process.env.SECRET;
+const jwtExpirySeconds = process.env.EXP;
 
 // Use Smtp Protocol to send Email
-console.log(conf.info.co);
 var smtpTransport = mailer.createTransport({
     service: "Gmail",
     auth: {
@@ -41,8 +40,8 @@ exports.createUser = (obj_user) => {
                                 from: "SapoLine <mickaelbenaroch@gmail.com>>",
                                 to: obj_user.email,
                                 subject: "Welcome to SapoLine",
-                                text: "Thank you for your purchase!",
-                                html: "<b>Thank you for your purchase! SapoLine Team...</b>"
+                                text: "Thank you for joing us!",
+                                html: "<br>Have a nice shopping and see you soon on SapoLine</br> SapoLine Team...</b>"
                             }
                             smtpTransport.sendMail(mail, function(error, response){
                                 if(error){
@@ -89,7 +88,7 @@ exports.checkToken = (token) => {
         }
         var payload
         try {
-            payload = jwt.verify(token, jwtKey)
+            payload = jwt.verify(token.token, jwtKey)
         } catch (e) {
             if (e instanceof jwt.JsonWebTokenError) {
              rej('the JWT is unauthorized' + e);
