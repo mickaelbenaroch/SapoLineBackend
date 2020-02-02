@@ -76,19 +76,14 @@ route.post('/getGroup', check('group').not().isEmpty(), (req, res)=>{
 //Details - get all user by key object
 //require - none (all fields optional)
 //return  - user  
-route.post('/getUser', (req, res)=>{
+route.post('/getuser', (req, res)=>{
     let obj_profile = JSON.parse(JSON.stringify({
-        user:           req.body.user,
+        email:           req.body.email,
         first_name:     req.body.first_name, 
         last_name:      req.body.last_name,
-        age:            req.body.age,
         phone:          req.body.phone,
-        street:         req.body.street,
-        city:           req.body.city,
-        street_number:  req.body.street_number,
-        floor:          req.body.floor,
-        apt_number:     req.body.apt_number,
-        pass_id:        req.body.pass_id,
+        address:        req.body.address,
+        token:          req.headers.token,
     }));
 
     if(Object.entries(obj_profile).length === 0){

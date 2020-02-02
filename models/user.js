@@ -40,7 +40,7 @@ exports.createUser = (obj_user) => {
                         phone: obj_user.phone,
                         address: obj_user.address,
                     }
-                    profile.insertOne(obj_user, (err, resu) => {
+                    profile.insertOne(newUser, (err, resu) => {
                         if (err) {
                             rej("failed to create new user " + newUser);
                         } else {
@@ -56,16 +56,29 @@ exports.createUser = (obj_user) => {
 }
 
 //Details - get user profile by email
-exports.getUser = (email) => {
+exports.getUser = (obj_user) => {
     return new Promise(( res, rej) => {
-        let profile = db.get().collection('user');
-        
-        profile.findOne({email: email}, (err, result) => {
-            if(err || result === null)
-                rej("profile not exist")
-            else
-                res(result);
-        });
+        if (!obj_user || !obj_user.token) {
+            res("unauthorize, no token on request!")
+        } else {
+            var payload;
+            try {
+                payload = jwt.verify(obj_user.token, jwtKey)
+            } catch (e) {
+                if (e instanceof jwt.JsonWebTokenError) {
+                 rej('the JWT is unauthorized' + e);
+                }
+                 rej('bad request error' + e);
+            }
+            let profile = db.get().collection('user');
+            
+            profile.findOne({email: obj_user.email}, (err, result) => {
+                if(err || result === null)
+                    rej("profile not exist")
+                else
+                    res(result);
+            });
+        }
     });
 }
 
