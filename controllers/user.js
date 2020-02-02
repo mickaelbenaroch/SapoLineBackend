@@ -93,7 +93,7 @@ route.post('/getuser', (req, res)=>{
         res.end()
     }
 
-    profile.getProfile(obj_profile).then((data) => {
+    profile.getUser(obj_profile).then((data) => {
         res.status(200).json({isValid: true, data});   
         res.end(); 
     }).catch(err => {
