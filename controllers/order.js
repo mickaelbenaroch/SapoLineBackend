@@ -30,13 +30,13 @@ route.post('/', (req, res)=>{
 //Details - get order
 //require - none (exercises fields is optional) - if empty req body return all orders
 //return  - items data by request
-route.post('/getOrders', (req, res)=>{
+route.post('/getorders', (req, res)=>{
     let obj_order = JSON.parse(JSON.stringify({
-        from_date: req.body.date,
-        until_date: req.body.date,
+        date: req.body.date,
         order_id: req.body.order_id,
-        user_phone: req.body.user_phone,
-        status: req.body.status
+        user: req.body.user,
+        status: req.body.status,
+        token: req.headers.token
     }));
 
     order.getOrders(obj_order).then((data) => {
