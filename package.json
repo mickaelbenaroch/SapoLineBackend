@@ -23,7 +23,7 @@
     "express-validator": "^6.3.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.5",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.16",
     "sendmail": "^1.6.1",
     "simple-node-logger": "^18.12.23"
   }
